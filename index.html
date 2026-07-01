@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Projeto Arquitetônico em Imbituba SC | Arquitetura de Interiores e Comercial — Ilton Ferreira</title>
+<title>Ilton Ferreira - Arquitetura e Interiores - Imbituba - SC</title>
 
 <!-- Security -->
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://arqiltonferreira.com; connect-src 'none'; frame-src 'none'; object-src 'none';">
@@ -11,7 +11,7 @@
 <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
 
 <!-- SEO -->
-<meta name="description" content="Escritório de arquitetura em Imbituba, SC. Projetos arquitetônicos residenciais, arquitetura comercial e arquitetura de interiores. Atendimento em Imbituba, Garopaba, Praia do Rosa, Laguna, Tubarão e Jaguaruna.">
+<meta name="description" content="Ilton Ferreira - Arquitetura e Interiores em Imbituba, SC. Projetos arquitetônicos residenciais, comerciais e de interiores, com atendimento em Garopaba, Praia do Rosa, Laguna, Tubarão e Jaguaruna.">
 <meta name="keywords" content="projeto arquitetônico, projeto de arquitetura, arquitetura de interiores, arquitetura comercial, escritório de arquitetura, projeto casa, arquiteto Garopaba, arquiteto, projeto residencial, arquiteto de interiores, arquiteto perto de mim, arquiteto Imbituba, arquiteto Imbituba SC, arquiteto Praia do Rosa, arquiteto Laguna SC, arquiteto Tubarão, arquiteto Jaguaruna">
 <meta name="author" content="Ilton Ferreira">
 <meta name="robots" content="index, follow">
@@ -20,7 +20,7 @@
 <!-- Open Graph (WhatsApp, Facebook, LinkedIn) -->
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://arqiltonferreira.com/">
-<meta property="og:title" content="Projeto Arquitetônico em Imbituba SC | Ilton Ferreira — Arquitetura e Interiores">
+<meta property="og:title" content="Ilton Ferreira - Arquitetura e Interiores - Imbituba - SC">
 <meta property="og:description" content="Escritório de arquitetura em Imbituba, SC. Projetos arquitetônicos residenciais, arquitetura comercial e arquitetura de interiores. Atendimento em Garopaba, Praia do Rosa, Laguna, Tubarão e Jaguaruna.">
 <meta property="og:image" content="https://arqiltonferreira.com/imagens/thumb.png">
 <meta property="og:image:width" content="1200">
@@ -31,7 +31,7 @@
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:url" content="https://arqiltonferreira.com/">
-<meta name="twitter:title" content="Projeto Arquitetônico em Imbituba SC | Ilton Ferreira — Arquitetura e Interiores">
+<meta name="twitter:title" content="Ilton Ferreira - Arquitetura e Interiores - Imbituba - SC">
 <meta name="twitter:description" content="Projetos arquitetônicos residenciais, arquitetura comercial e arquitetura de interiores em Imbituba e região. Atendimento em Garopaba, Praia do Rosa, Laguna, Tubarão e Jaguaruna.">
 <meta name="twitter:image" content="https://arqiltonferreira.com/imagens/thumb.png">
 
@@ -1392,6 +1392,20 @@ footer {
     height: auto;
   }
 }
+
+/* ── FAQ (animação abrir/fechar) ── */
+.faq-list details summary svg {
+  transition: transform 0.3s ease;
+}
+.faq-list details.is-open summary svg {
+  transform: rotate(180deg);
+}
+.faq-list details > p {
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  transition: max-height 0.35s ease, opacity 0.3s ease, margin-top 0.35s ease;
+}
 </style>
 
 <!-- Schema.org Structured Data -->
@@ -2183,7 +2197,7 @@ footer {
 <!-- ░░ FOOTER ░░ -->
 <footer>
   <p class="footer-copy">© 2026 Ilton Ferreira · CAU/BR A245753-9 — Arquitetura e Interiores · Imbituba, SC</p>
-  <p class="footer-dev">Website desenvolvido por <a href="https://amplifying.com.br" target="_blank" rel="noopener noreferrer" class="footer-dev-link">AMPLIFYING</a></p>
+  <p class="footer-dev">Website desenvolvido por <a href="https://amplifying.com.br/servicos" target="_blank" rel="noopener noreferrer" class="footer-dev-link">AMPLIFYING</a></p>
 </footer>
 
 <!-- ░░ WHATSAPP FLOAT ░░ -->
@@ -2257,14 +2271,19 @@ function heroGoSlide(n) {
   document.querySelectorAll('.hero-dot').forEach(function(d, i) { d.classList.toggle('active', i === heroCur); });
 }
 
-var heroInterval = setInterval(function() { heroGoSlide(heroCur + 1); }, 4500);
+var heroInterval;
+function heroStartAutoplay() {
+  clearInterval(heroInterval);
+  heroInterval = setInterval(function() { heroGoSlide(heroCur + 1); }, 4500);
+}
+if (!document.hidden) heroStartAutoplay();
 
 // Pausa quando a aba está em background (economiza CPU)
 document.addEventListener('visibilitychange', function() {
   if (document.hidden) {
     clearInterval(heroInterval);
   } else {
-    heroInterval = setInterval(function() { heroGoSlide(heroCur + 1); }, 4500);
+    heroStartAutoplay();
   }
 });
 
@@ -2290,6 +2309,46 @@ const obs = new IntersectionObserver((entries) => {
 }, { threshold: 0.12 });
 
 document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
+
+// ── FAQ (animação abrir/fechar) ──
+document.querySelectorAll('.faq-list details').forEach(function(det) {
+  var summary = det.querySelector('summary');
+  var content = det.querySelector('p');
+
+  summary.addEventListener('click', function(e) {
+    e.preventDefault();
+
+    if (det.hasAttribute('open')) {
+      // Fechando
+      det.classList.remove('is-open');
+      content.style.maxHeight = content.scrollHeight + 'px';
+      requestAnimationFrame(function() {
+        content.style.maxHeight = '0px';
+        content.style.opacity = '0';
+      });
+      content.addEventListener('transitionend', function onEnd() {
+        det.removeAttribute('open');
+        content.removeEventListener('transitionend', onEnd);
+      }, { once: true });
+    } else {
+      // Abrindo
+      det.setAttribute('open', '');
+      det.classList.add('is-open');
+      content.style.maxHeight = '0px';
+      content.style.opacity = '0';
+      requestAnimationFrame(function() {
+        requestAnimationFrame(function() {
+          content.style.maxHeight = content.scrollHeight + 'px';
+          content.style.opacity = '1';
+        });
+      });
+      content.addEventListener('transitionend', function onEnd() {
+        content.style.maxHeight = 'none';
+        content.removeEventListener('transitionend', onEnd);
+      }, { once: true });
+    }
+  });
+});
 
 // ── MODAL PROJETO ──
 const PROJECTS = [
